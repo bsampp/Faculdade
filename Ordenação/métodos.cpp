@@ -41,42 +41,51 @@ void bubble(int *v, int n)
 }
 void bubble_recursivo(int *v, int n)
 {
-    int aux;
-    if (n == 1)
+    if (n > 1)
     {
-        return v[0];
-    }
-    for (int i = 0; i < n - 1; i++)
-    {
-        if (v[i] > v[i + 1])
+        for (int i = 0; i < n - 1; i++)
         {
-            aux = v[i];
-            v[i] = v[i + 1];
-            v[i + 1] = aux;
+            if (v[i] > v[i + 1])
+            {
+                troca(&v[i], &v[i + 1]);
+            }
+            bubble_recursivo(v, n - 1);
         }
-        bubble_recursivo(v, n - 1);
     }
 }
 void selection(int *v, int n)
 {
     int i, j, menor;
-    for (i = 0; i < n-1; i++)
+    for (i = 0; i < n - 1; i++)
     {
         menor = i;
-        for (j = i+1; j < n; j++)
+        for (j = i + 1; j < n; j++)
         {
             if (v[j] < v[menor])
             {
                 menor = j;
             }
-            
         }
         if (v[menor] != v[i])
         {
             troca(&v[menor], &v[i]);
         }
     }
-    
+}
+void insert(int *v, int n)
+{
+    int i, j, aux;
+    for (i = 1; i < n; i++)
+    {
+        j = i - 1;
+        aux = v[i];
+        while (j >= 0 && aux < v[j])
+        {
+            v[j + 1] = v[j];
+            j--;
+        }
+        v[j + i] = aux;
+    }
 }
 int main()
 {
