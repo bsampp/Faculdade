@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <fstream>
 #include <windows.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 typedef struct
@@ -70,6 +71,7 @@ int insere()
 }
 int lista_contas()
 {
+    string linha;
     Registro contas;
     ifstream arquivo("contas.csv", ios::in);
     if (!arquivo)
@@ -77,15 +79,16 @@ int lista_contas()
         cout << "Nao foi possivel abrir o arquivo contas.csv" << endl;
         return -1;
     }
-    while (arquivo.good())
+    while (!(arquivo.eof()))
     {
         arquivo >> contas.id;
-        cout << contas.id;
-        getline(arquivo, contas.email);
+        cout << contas.id << " ";
+        getline(arquivo, linha, ',');
+        getline(arquivo, contas.email, ',');
         cout << contas.email << " ";
-        getline(arquivo, contas.senha);
+        getline(arquivo, contas.senha, ',');
         cout << contas.senha << " ";
-        getline(arquivo, contas.usuario);
+        getline(arquivo, contas.usuario, ',');
         cout << contas.usuario << " ";
         getline(arquivo, contas.nickname);
         cout << contas.nickname << endl;
@@ -95,13 +98,18 @@ int lista_contas()
 }
 Registro *busca_conta(int idBusca, ifstream &arquivo)
 {
+    string linha;
     Registro *contas;
     contas = new (nothrow) Registro;
     arquivo.seekg(0);
     do
     {
-        getline(arquivo, contas->email);
         arquivo >> contas->id;
+        getline(arquivo, linha, ',');
+        getline(arquivo, contas->email, ',');
+        getline(arquivo, contas->senha, ',');
+        getline(arquivo, contas->usuario, ',');
+        getline(arquivo, contas->nickname);
     } while (contas->id != idBusca && !arquivo.eof());
     if (contas->id == idBusca)
         return contas;
@@ -126,10 +134,16 @@ int busca()
         {
             contas = busca_conta(id, arquivo);
             if (contas)
-
+            {
                 cout << "E-mail: " << contas->email << endl;
+                cout << "Senha: " << contas->senha << endl;
+                cout << "Usuário: " << contas->usuario << endl;
+                cout << "Nickname: " << contas->nickname << endl;
+            }
             else
+            {
                 cout << "Conta não cadastrada" << endl;
+            }
         }
     } while (id != 0);
     arquivo.close();
@@ -138,11 +152,36 @@ int busca()
     return 0;
 }
 
+void del_line(const char *file_name, int n)
+{
+    ifstream fin(file_name);
+    ofstream fout;
+    fout.open("contas.csv", ios::out);
+
+    char ch;
+    int line = 1;
+    while (fin.get(ch))
+    {
+        if (ch == '\n')
+            line++;
+
+        if (line != n) // content not to be deleted
+            fout << ch;
+    }
+    fout.close();
+    fin.close();
+    remove(file_name);
+    rename("contas.csv", file_name);
+}
+
 int main()
 {
+    int x;
     SetConsoleOutputCP(CP_UTF8);
-    // insere();
-    // lista_contas();
+    //insere();
+    lista_contas();
+    cin >> x;
+    //del_line("contas.csv", x);
     busca();
     return 0;
 }
