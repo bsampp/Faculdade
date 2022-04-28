@@ -78,7 +78,7 @@ int lista_contas() // Faz a leitura de todos os registros do arquivo
     return 0;
 }
 Registro *busca_conta(int idBusca, fstream &arquivo) // Função que trabalaha com ponteiros e alocação dinâmica
-{                                                    //com o objetivo de encontrar o registro com o id buscado
+{                                                    // com o objetivo de encontrar o registro com o id buscado
     string linha;
     Registro *contas;
     contas = new (nothrow) Registro;
@@ -163,13 +163,17 @@ int exporta() // Exporta o arquivo .csv para .txt
     }
     arquivo.close();
 }
+void exclui() // Exclui o arquivo csv
+{
+    remove("contas.csv");
+}
 int main()
 {
     SetConsoleOutputCP(CP_UTF8);
     int opcao;
     do
     {
-        cout << "Inserir novas contas(1) / Mostrar todas as contas(2) / Realizar busca de contas(3) / Exportar para .txt(4) / Finalizar programa(5)" << endl;
+        cout << "Inserir novas contas(1) / Mostrar todas as contas(2) / Realizar busca de contas(3) / Exportar para .txt(4) / Finalizar programa(5) / Exclui o .csv(9)" << endl;
         cin >> opcao;
         switch (opcao)
         {
@@ -184,6 +188,9 @@ int main()
             break;
         case 4:
             exporta();
+            break;
+        case 9:
+            exclui();
             break;
         }
     } while (opcao != 5);
