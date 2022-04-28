@@ -14,7 +14,7 @@ typedef struct
     string nickname;
     int id;
 } Registro;
-int insere()
+int insere() // Insere novos registros dentro do arquivo
 {
     char continuar;
     Registro contas;
@@ -53,7 +53,7 @@ int insere()
     arquivo.close();
     return 0;
 }
-int lista_contas()
+int lista_contas() // Faz a leitura de todos os registros do arquivo
 {
     string linha = "";
     Registro contas;
@@ -77,8 +77,8 @@ int lista_contas()
     arquivo.close();
     return 0;
 }
-Registro *busca_conta(int idBusca, fstream &arquivo)
-{
+Registro *busca_conta(int idBusca, fstream &arquivo) // Função que trabalaha com ponteiros e alocação dinâmica
+{                                                    //com o objetivo de encontrar o registro com o id buscado
     string linha;
     Registro *contas;
     contas = new (nothrow) Registro;
@@ -97,7 +97,7 @@ Registro *busca_conta(int idBusca, fstream &arquivo)
     else
         return NULL;
 }
-int busca()
+int busca() // Faz a leitura do registro buscado pela função busca_conta()
 {
     int id;
     Registro *contas;
@@ -132,7 +132,7 @@ int busca()
     contas = NULL;
     return 0;
 }
-int exporta()
+int exporta() // Exporta o arquivo .csv para .txt
 {
     ifstream arquivo("contas.csv");
     ofstream arquivotxt("contas.txt");
