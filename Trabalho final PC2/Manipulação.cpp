@@ -175,10 +175,13 @@ int main()
         {
         case 1:
             insere();
+            break;
         case 2:
             lista_contas();
+            break;
         case 3:
             busca();
+            break;
         case 4:
             exporta();
             break;
